@@ -1,10 +1,10 @@
 import pandas as pd
 
 # 엑셀 파일 읽기
-df = pd.read_excel("./officetel.xlsx", dtype=str)
+df = pd.read_excel("./officetel.xlsx", dtype = str)
 
 # 16번째 열(인덱스 15)에 숫자가 포함된 행 제거
-df = df[~df.iloc[:, 15].str.contains(r'\d', na=False)]
+df = df[~df.iloc[:, 15].str.contains(r'\d', na = False)]
 
 # 매매 금액과 전용 면적을 숫자로 변환
 df["거래금액(만원)"] = df["거래금액(만원)"].str.replace(",", "").astype(float)
