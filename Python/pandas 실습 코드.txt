@@ -1,0 +1,197 @@
+# pandas 실습 코드
+
+
+# 6 - 12 코드
+
+import pandas as pd
+
+a = pd.Series([1, 2, 3, 4])
+print(a)
+b = pd.Series([1, 2, 3], index = ['a', 'b', 'c'])
+print(b)
+
+
+# 6 - 13 코드
+
+list1 = list([['한빛', '남자', '20', '180'], ['한결', '남자', '21', '177'], ['한라', '여자', '20', '160']])
+
+col_names = ['이름', '성별', '나이', '키']
+
+pd.DataFrame(list1, columns=col_names).to_xlsx('test.csv', index = False)
+
+
+# 6 - 14 코드
+
+dict1 = {'이름':{0:'한빛', 1:'한결', 2:'한라'}, '성별':{0:'남자', 1:'남자', 2:'여자'}, '나이':{0:'20', 1:'21', 2:'20'}, '키':{0:'180', 1:'177', 2:'160'}}
+
+pd.DataFrame(dict1).to_csv('testD.csv', index = False)
+
+
+# 6 - 15 코드
+
+import numpy as np
+
+arr1 = np.array([['한빛', '남자', '20', '180'], ['한결', '남자', '21', '177'], ['한라', '여자', '20', '160']])
+
+col_names = ['이름', '성별', '나이', '키']
+
+pd.DataFrame(arr1, columns=col_names).to_csv('testA.csv', index = False)
+
+
+# 6 - 16 코드
+
+list1 = list([['허준호', '남자', '30', '183'], ['이가원', '여자', '24', '162'], ['배규민', '남자', '23', '179'], ['고고림', '남자', '21', '182'], ['이새봄', '여자', '28', '160'], ['이보람', '여자', '26', '163'],
+ ['이루리', '여자', '24', '157'], ['오다현', '여자', '24', '172']])
+
+col_names = ['이름', '성별', '나이', '키']
+
+df = pd.DataFrame(list1, columns=col_names)
+df
+
+
+# 6 - 17 코드
+
+df.to_csv('./file.csv', header=True, index=False, encoding='utf-8')
+
+df2 = pd.read_csv('./file.csv', sep=',')
+
+df2
+
+
+# 6 - 18 코드
+
+df.columns
+
+
+# 6 - 19 코드
+
+df.describe( )
+
+
+# 6 - 20 코드
+
+df.head(3)
+
+
+# 6 - 21 코드
+
+df.tail(2)
+
+
+# 6 - 22 코드
+
+df.sort_index(axis=0).head( )
+
+
+# 6 - 23 코드
+
+df.sort_values(by=['키', '몸,무게'], ascending = False).head( )
+
+
+# 6 - 24 코드
+
+df[['키']].head( )
+
+
+# 6 - 25 코드
+
+df.iloc[0:2, 1:2]
+
+
+# 6 - 26 코드
+
+df[df['키'] >= 170].head( )
+
+
+# 6 - 27 코드
+
+list1 = list([['허준호', '남자', 30, 183], ['이가원', '여자', 24, 162], ['배규민', '남자', 23, 179], ['고고림', '남자', 21, 182],
+ ['이새봄', '여자', 28, 160], ['이보람', '여자', 26, 163],['이루리', '여자', 24, 157], ['오다현', '여자', 24, 172]])
+
+col_names = ['이름', '성별', '나이', '키']
+df = pd.DataFrame(list1, columns=col_names)
+
+df[df['키'] > 180]
+
+
+# 6 - 28 코드
+
+df[df['나이'].isin([21, 23])]
+
+
+# 6 - 29 코드
+
+df[(df['성별'] == '여자') & (df['키'] > 170)]
+
+
+# 6 - 30 코드
+
+df[(df['나이'] >= 28) | (df['성별'] == '남자')]
+
+
+# 6 - 31 코드
+
+df[df['이름'].str.contains('봄')]
+
+
+# 6 - 32 코드
+
+df.describe( )
+
+
+# 6 - 33 코드
+
+df.loc[4, '키'] = df.loc[4, '키'] + 5
+df.loc[[4]]
+
+
+# 6 - 34 코드
+
+df.loc[1:2,'키'] = ['모름'] * 2
+df
+
+
+# 6 - 35 코드
+
+df.set_index('이름', inplace=True)
+df.head(3)
+
+
+# 6 - 36 코드
+
+df['보너스'] = df['나이'] * 10000
+df.head(3)
+
+
+# 6 - 37 코드
+
+df.drop('보너스', axis=1, inplace=True)
+df.head(3)
+
+
+# 6 - 38 코드
+
+df.reset_index(inplace = True)
+df.head(3)
+
+
+# 6 - 39 코드
+
+rep_cond = {'성별':{'남자':1, '여자':0}}
+df2 = df.replace(rep_cond)
+df2.head(3)
+
+
+# 6 - 40 코드
+
+df['키'] = pd.to_numeric(df['키'])
+
+mean_by_gender = df.groupby(by = ['성별'], as_index = False)['키'].mean()
+mean_by_gender.rename(columns = {'키': '평균 키'}, inplace = True)
+
+std_by_gender = df.groupby(by = ['성별'], as_index = False)['키'].std()
+std_by_gender.rename(columns = {'키': '키의 표준편차'}, inplace = True)
+
+new_df = pd.merge(mean_by_gender, std_by_gender)
+
+print(new_df)
