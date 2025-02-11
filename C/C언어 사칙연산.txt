@@ -2,15 +2,20 @@
 
 void main()
 {
-    int result = 0;
+    double result = 0;
     
     int a, b, c;
     
     scanf("%d", &a);
     scanf("%d", &b);
     scanf("%d", &c);
-
-    result = (((a + b) * c) - (a - b)) / c;
     
-    printf("%d", result);
+    if (c == 0) {
+        printf("C값이 0입니다. 다시 입력해주세요.");
+        scanf("%d", &c);
+    }
+
+    result = (a + b) * c - ((double)(a - b)) / c;
+    
+    printf("%.2f", result);
 }
