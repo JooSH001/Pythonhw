@@ -1,0 +1,32 @@
+// 등급 계산기
+
+#include <stdio.h>
+
+void main()
+{
+    int a;
+    float bonus = 0.0;
+    
+    printf("시험 점수를 입력하세요: ");
+    scanf("%d", &a);
+    
+    if (a >= 90)
+    {
+        printf("A등급\n");
+        bonus = a * 0.10;
+    } else if (a >= 80) {
+        printf("B등급\n");
+        bonus = a * 0.5;
+    } else if (a >= 70) {
+        printf("C등급\n");
+    } else if (a >= 60) {
+        printf("D등급\n");
+    } else {
+        printf("F등급\n");
+    }
+    
+    if (bonus > 0)
+    {
+        printf("보너스: %.1f", bonus);
+    }
+}
