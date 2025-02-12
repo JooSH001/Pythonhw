@@ -2,7 +2,7 @@
 
 void main()
 {
-    double result = 0;
+    double result = 0.0;
     
     int a, b, c;
     
