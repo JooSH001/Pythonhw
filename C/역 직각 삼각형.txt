@@ -1,0 +1,28 @@
+// 역 직각 삼각형
+
+#include <stdio.h>
+
+void main()
+{
+    int a;
+    
+    printf("역 직각 삼각형을 만들 숫자를 입력하세요: ");
+    scanf("%d", &a);
+    
+    for (int i = a; i >= 1; i--)
+    {
+        
+        for (int j = 1; j <= i; j++)
+        {
+            printf("*");
+        }
+        
+        for (int j = 1; j <= a - i; j++)
+        {
+            printf(" ");
+        }
+        
+        printf("\n");
+    }
+    
+}

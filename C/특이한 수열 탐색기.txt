@@ -1,0 +1,39 @@
+// 특이한 수열 탐색기
+
+#include <stdio.h>
+
+void main()
+{
+    int m, n;
+    
+    while(1)
+    {
+        printf("정수 M, N을 입력하세요: ");
+        scanf("%d %d", &n, &m);
+    
+        if (m >= n)
+        {
+            break;
+        } else {
+            printf("M은 N보다 큰 값이어야 합니다.\n");
+        }
+        
+    }
+    
+    for (int i = n; i <= m; i++)
+    {
+        if (i % 7 == 0 || (i / 10 == 7 || i % 10 == 7))
+        {
+            continue;
+        }
+        
+        if (i % 5 == 0)
+        {
+            printf("%d\n", i);
+            break;
+        }
+        
+        printf("%d\n", i);
+    }
+    
+}
