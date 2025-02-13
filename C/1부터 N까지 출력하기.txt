@@ -1,0 +1,26 @@
+// 1부터 N까지 출력하기
+
+#include <stdio.h>
+
+void main()
+{
+	int n;
+	int i = 0;
+	
+	printf("1부터 몇까지 출력할지 숫자를 입력해주세요: ");
+	scanf("%d", &n);
+	
+	while (n > 0)
+	{
+	    i++;
+	    
+	    printf("%d ", i);
+		
+		if (i == n)
+		{
+			break;
+		}
+		
+	}
+
+}
