@@ -13,13 +13,13 @@ void main()
 	while (n > 0)
 	{
 	    i = i + 2;
-	    
-	    printf("%d ", i);
 		
-		if (i == n)
+		if (i > n)
 		{
 			break;
 		}
+		
+		printf("%d ", i);
 		
 	}
 
