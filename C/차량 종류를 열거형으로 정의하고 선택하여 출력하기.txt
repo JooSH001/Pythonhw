@@ -1,0 +1,52 @@
+// 차량 종류를 열거형으로 정의하고 선택하여 출력하기
+
+#include <stdio.h>
+
+int main()
+{
+    enum cars { sedan, suv, truck, van };
+
+    char *sedan_L[] = {"Avante", "K3", "Sonata", "K5", "Grandeur", "K8", "G70", "G80", "G90", "Malibu", "Cruze"};
+    char *suv_L[] = {"Kona", "Seltos", "Tucson", "Sportage", "Santa Fe", "Sorento", "Palisade", "Mohave", "GV70", "GV80"};
+    char *truck_L[] = {"Ford F-150", "Ram 1500", "Chevrolet Silverado", "Toyota Tundra", "Nissan Titan", "GMC Sierra", "Honda Ridgeline", "Hyundai Santa Cruz"};
+    char *van_L[] = {"Toyota Sienna", "Honda Odyssey", "Chrysler Pacifica", "Kia Carnival", "Mercedes-Benz Metris", "Ram ProMaster City"};
+
+    enum cars c;
+
+    printf("1번부터 4번까지 차량 종류를 선택하세요:\n");
+    printf("1. SEDAN\n");
+    printf("2. SUV\n");
+    printf("3. TRUCK\n");
+    printf("4. VAN\n");
+    scanf("%d", &c);
+
+    switch (c) {
+        case 1:
+            printf("세단 모델:\n");
+            for (int i = 0; i < sizeof(sedan_L) / sizeof(sedan_L[0]); i++) {
+                printf("- %s\n", sedan_L[i]);
+            }
+            break;
+        case 2:
+            printf("SUV 모델:\n");
+            for (int i = 0; i < sizeof(suv_L) / sizeof(suv_L[0]); i++) {
+                printf("- %s\n", suv_L[i]);
+            }
+            break;
+        case 3:
+            printf("트럭 모델:\n");
+            for (int i = 0; i < sizeof(truck_L) / sizeof(truck_L[0]); i++) {
+                printf("- %s\n", truck_L[i]);
+            }
+            break;
+        case 4:
+            printf("밴 모델:\n");
+            for (int i = 0; i < sizeof(van_L) / sizeof(van_L[0]); i++) {
+                printf("- %s\n", van_L[i]);
+            }
+            break;
+        default:
+            printf("잘못된 차량 종류입니다.\n");
+            break;
+    }
+}

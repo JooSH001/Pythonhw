@@ -1,0 +1,27 @@
+// 학생 정보 관리 프로그램
+
+#include <stdio.h>
+
+void main()
+{
+    struct groups {
+        char name[10];
+        int age;
+        char grade;
+    };
+    
+    struct groups student;
+    
+    printf("이름을 입력하세요: ");
+    scanf("%s", student.name);
+    
+    printf("나이를 입력하세요: ");
+    scanf("%d", &student.age);
+    
+    printf("학년을 입력하세요: ");
+    scanf(" %c", &student.grade);
+    
+    printf("\n이름: %s\n", student.name);
+    printf("나이: %d\n", student.age);
+    printf("학년: %c", student.grade);
+}

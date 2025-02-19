@@ -1,0 +1,34 @@
+// 다양한 데이터 타입을 저장하는 공용체 만들기
+
+#include <stdio.h>
+
+void main()
+{
+    union student {
+        int intVal;
+        float floatVal;
+        char charVal;
+    };
+    
+    union student u;
+    
+    printf("정수를 입력하세요: ");
+    scanf("%d", &u.intVal);
+    printf("\n입력한 정수 값: %d\n", u.intVal);
+    printf("정수 주소: %p\n", (void*)&u.intVal);
+    
+    printf("\n실수를 입력하세요: ");
+    scanf("%f", &u.floatVal);
+    printf("\n입력한 실수 값: %f\n", u.floatVal);
+    printf("실수 주소: %p\n", (void*)&u.floatVal);
+    
+    printf("\n문자를 입력하세요: ");
+    scanf(" %c", &u.charVal);
+    printf("\n입력한 문자 값: %c\n", u.charVal);
+    printf("문자 주소: %p\n", (void*)&u.charVal);
+
+    printf("\n마지막 입력 값 확인:\n");
+    printf("정수 값: %d\n", u.intVal);
+    printf("실수 값: %f\n", u.floatVal);
+    printf("문자 값: %c\n", u.charVal);
+}
