@@ -1,0 +1,114 @@
+import requests
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+# 카카오 API 키
+API_KEY = '255289ea81821fb229b65288b04933f9'
+
+url = 'https://dapi.kakao.com/v2/local/search/keyword.json'
+
+latitude = 37.385877
+longitude = 127.122431
+radius = 290
+
+headers = {'Authorization': f'KakaoAK {API_KEY}'}
+
+params = {'x': longitude, 'y': latitude, 'radius': radius, 'query': '서현역 맛집'}
+
+max_results = 50
+results = []
+page = 1
+
+# Selenium 설정
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # 브라우저 창 숨김
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+service = Service("/usr/bin/chromedriver")  # chromedriver 경로 설정
+driver = webdriver.Chrome(service=service, options=chrome_options)
+
+# 음식점 목록 가져오기
+while len(results) < max_results:
+    params['page'] = page
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        documents = data.get('documents', [])
+        
+        if not documents:
+            break
+        
+        results.extend(documents)
+
+        if len(results) >= max_results:
+            break
+
+        page += 1
+    else:
+        print(f"API 호출 실패: {response.status_code}")
+        break
+
+# 음식점 정보 출력 및 상세 페이지 크롤링
+print("검색된 음식점 목록:")
+
+for place in results[:max_results]:
+    name = place['place_name']
+    address = place['address_name']
+    place_url = place.get('place_url', '')  # 상세 페이지 URL
+    
+    # 상세 페이지로 이동
+    driver.get(place_url)
+    time.sleep(2)  # 페이지 로딩 대기
+    
+    try:
+        blog_count = 0
+        review_count = 0
+        rating = 0.0
+
+         # 후기 갯수 추출
+        try:
+          review_count_element = driver.find_element(By.CSS_SELECTOR, "div.unit_info a.link_review span.info_num")
+          review_count = review_count_element.text.strip()
+        except Exception:
+          review_count = 0
+        
+        if review_count == 0:
+          rating = 0.0
+
+        # 별점 추출
+        else: 
+          try:
+            rating_element = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "span.num_star"))
+            )
+            rating = rating_element.text.strip()  # 예: '3.4' 또는 '3.5'
+          except Exception:
+            rating = 0.0
+
+        # 블로그 리뷰 건수 추출
+        try:
+            blog_count_element = driver.find_element(By.CSS_SELECTOR, "div.unit_info a.link_blog span.info_num")
+            blog_count = blog_count_element.text.strip()
+        except Exception:
+            blog_count = 0  # 블로그 리뷰가 없으면 0으로 설정
+
+        # 결과 출력
+        print(f"이름: {name}")
+        print(f"주소: {address}")
+        print(f"별점: {rating}")
+        print(f"후기 갯수: {review_count}건")
+        print(f"블로그 리뷰 건수: {blog_count}개")
+        print("-" * 50)
+
+    except Exception as e:
+        print(f"{name}의 상세 정보를 가져올 수 없습니다: {e}")
+        print("-" * 50)
+
+# Selenium 종료
+driver.quit()
